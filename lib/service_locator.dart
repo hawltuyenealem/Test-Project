@@ -7,11 +7,11 @@ import 'package:test_project/presentation/product/blocs/product/product_bloc.dar
 
 final sl = GetIt.instance;
 
-Future initServiceLocator() async {
+Future initServiceLocator({required String userId}) async {
   sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
 
   sl.registerFactory<ProductRepository>(() => ProductRepository(firestore: sl()));
-  sl.registerFactory<CartRepository>(() => CartRepository(firestore: sl(),userId: sl()));
+  sl.registerFactory<CartRepository>(() => CartRepository(firestore: sl(),userId: userId));
 
 
   sl.registerLazySingleton<ProductBloc>(() => ProductBloc(productRepository: sl()));

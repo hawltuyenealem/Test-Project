@@ -3,16 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:test_project/presentation/product/widgets/rating.dart';
+import '../../../service_locator.dart';
 import '../blocs/cart/cart_bloc.dart';
 import '../blocs/product/product_bloc.dart';
 import 'color_selector.dart';
 
 class ProductDetailsMobile extends StatelessWidget {
-  const ProductDetailsMobile({super.key});
+  ProductDetailsMobile({super.key});
+  int cartLength = 0;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductBloc, ProductState>(
+    return BlocListener<CartBloc, CartState>(
+  listener: (context, state) {
+    if(state is CartAdded){
+      cartLength += 1;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Added to cart'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  },
+  child: BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
         if (state is ProductLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -87,34 +101,137 @@ class ProductDetailsMobile extends StatelessWidget {
                 fontWeight: FontWeight.w500
               ),),
               const SizedBox(height: 16),
-              Stack(
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // product.imageUrl
-                  Image.network(
-                    product.imageUrl.toString(),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
+                  Stack(
+                    children: [
+                      // Image
+                      Image.network(
+                        state.product.imageUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
                       ),
-                      onPressed: () {
-                        context.read<ProductBloc>().add(
-                          ToggleFavorite(
-                            productId: product.id,
-                            isFavorite: !isFavorite,
+
+                      // Favorite Icon
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: IconButton(
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: isFavorite ? Colors.red : Colors.grey,
                           ),
-                        );
-                      },
-                    ),
+                          onPressed: () {
+                            context.read<ProductBloc>().add(
+                              ToggleFavorite(
+                                productId: product.id,
+                                isFavorite: !isFavorite,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        top: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          spacing: MediaQuery.of(context).size.width * 0.6,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.chevron_left, size: 32,color: Colors.grey,),
+                              onPressed: () {
+
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.chevron_right, size: 32,color:
+                                Colors.grey,),
+                              onPressed: () {
+
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+
+                  SizedBox(height: 10),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(5, (index) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: index == 0 ? Colors.black : Colors.transparent,
+                          border: Border.all(color: Colors.black, width: 1),
+                        ),
+                      );
+                    }),
+                  ),
+
+                  SizedBox(height: 20),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                                border: Border.all(color: Colors.black, width: 2),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text("Black", style: TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                border: Border.all(color: Colors.black, width: 2),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
+
 
               const SizedBox(height: 16),
 
@@ -132,7 +249,7 @@ class ProductDetailsMobile extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<CartBloc>().add(AddToCart(product.id));
+                    sl<CartBloc>().add(AddToCart(product.id));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA42D),
@@ -226,7 +343,8 @@ class ProductDetailsMobile extends StatelessWidget {
           ),
         );
       },
-    );
+    ),
+);
   }
 
   Widget _buildSuggestedItem(String name, String price) {

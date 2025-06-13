@@ -9,7 +9,9 @@ import 'package:test_project/service_locator.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await initServiceLocator();
+  final userId = 'anonymous_user';
+
+  await initServiceLocator(userId: userId);
 
   runApp(const MyApp());
 }
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ProductBloc>(create: (_) => sl<ProductBloc>()..add(LoadProduct('astro_a50_x'))),
-        BlocProvider(create: (_)=> sl<CartBloc>()),
+        BlocProvider<CartBloc>(create: (_)=> sl<CartBloc>()),
       ],
   child: MaterialApp(
       title: 'Flutter Demo',
