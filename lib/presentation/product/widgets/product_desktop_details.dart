@@ -117,27 +117,61 @@ class ProductDetailsDesktop extends StatelessWidget {
                         const SizedBox(height: 24),
                         Row(
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                sl<CartBloc>().add(AddToCart(product.id));
+                            BlocBuilder<CartBloc, CartState>(
+                              builder: (context, cartState) {
+                                final quantity = cartState.items[product.id] ?? 0;
+
+                                if (quantity > 0) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: Colors.grey),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.remove),
+                                          onPressed: () {
+                                            sl<CartBloc>().add(RemoveFromCart(product.id));
+                                          },
+                                        ),
+                                        Text('$quantity'),
+                                        IconButton(
+                                          icon: const Icon(Icons.add),
+                                          onPressed: () {
+                                            sl<CartBloc>().add(AddToCart(product.id));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      sl<CartBloc>().add(AddToCart(product.id));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xff0BA42D),
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(horizontal: 100),
+                                    ),
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Icon(Icons.shopping_cart_outlined),
+                                          SizedBox(width: 8),
+                                          Text('Add to Cart'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xff0BA42D),
-                                  foregroundColor: Colors.white,
-                                  padding: EdgeInsets.symmetric(horizontal: 100)
-                              ),
-                              child: Center(
-                                child: Row(
-                                  spacing: 5,
-                                  children: [
-                                    Icon(Icons.shopping_cart_outlined),
-                                    const Text('Add to Cart'),
-                                  ],
-                                ),
-                              ),
                             ),
+                            const SizedBox(width: 16),
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 context.read<ProductBloc>().add(
                                   ToggleFavorite(
                                     productId: product.id,
@@ -146,22 +180,22 @@ class ProductDetailsDesktop extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Color(0xff0D2612))
+                                  border: Border.all(color: const Color(0xff0D2612)),
                                 ),
-                                child:  Icon(
-                                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                                    color: isFavorite ? Colors.red : Color(0xff0D2612),
+                                child: Icon(
+                                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                                  color: isFavorite ? Colors.red : const Color(0xff0D2612),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                         const SizedBox(height: 16),
                         DottedBorder(
-                          options: RectDottedBorderOptions(
+                          options: const RectDottedBorderOptions(
                             dashPattern: [6, 3],
                             color: Colors.black54,
                             strokeWidth: 1,
@@ -222,7 +256,6 @@ class ProductDetailsDesktop extends StatelessWidget {
       },
     );
   }
-
 
   Widget _buildItem({
     required IconData icon,
