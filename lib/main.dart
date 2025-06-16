@@ -6,9 +6,14 @@ import 'package:test_project/presentation/product/blocs/product/product_bloc.dar
 import 'package:test_project/presentation/product/screens/product_screen.dart';
 import 'package:test_project/service_locator.dart';
 
+import 'firebase_options.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   final userId = 'anonymous_user';
 
   await initServiceLocator(userId: userId);
