@@ -9,19 +9,22 @@ class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(
+      ),
       appBar: AppBar(
         title: const HeaderBar(),
+        backgroundColor: const Color(0xff0D2613),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search,color: Colors.white
+              ,),
             onPressed: () {},
           ),
           Stack(
             clipBehavior: Clip.none,
             children: [
               IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined),
+                icon: const Icon(Icons.shopping_cart_outlined,color: Colors.white,),
                 onPressed: () {},
               ),
               Positioned(
@@ -51,7 +54,7 @@ class ProductScreen extends StatelessWidget {
               ),
             ],
           ),
-        ],
+        ]
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -79,28 +82,85 @@ class HeaderBar extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 600) {
-          return const Row(
+          return  Row(
             children: [
               Expanded(
-                child: Text(
-                  'GS & +4904-049-950          (et 50% oft',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
+                child: Row(
+                  spacing: 10,
+                  children: [
+                    Text(
+                      'GG',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'Nico Moji',
+                        color: Colors.white,
+                      ),
+                    ),
+                    Icon(Icons.dialer_sip,color: Colors.white,),
+                    Text(
+                      '+4904-049-950',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  spacing: 10,
+                  children: [
+                    Text(
+                      'Get 50% Off on the Selected items ',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      '|',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.green,
+                      ),
+                    ),
+                    Text(
+                      'Shop now',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('English'),
+                    Icon(Icons.keyboard_arrow_down_rounded,color: Colors.white,),
                     SizedBox(width: 8),
-                    Icon(Icons.language, size: 20),
-                    SizedBox(width: 16),
-                    Text('Location'),
-                    SizedBox(width: 8),
-                    Icon(Icons.location_on, size: 20),
+                    Text(
+                        'English',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                        color: Colors.white
+                    ),),
+                    SizedBox(width: 10),
+                    Icon(Icons.language, size: 20,color: Colors.white,),
+                    SizedBox(width: 4),
+                    Text(
+                        'Location',
+                        style: GoogleFonts.inter(
+                            fontSize: 14,
+                            color: Colors.white
+                        )
+                    ),
                   ],
                 ),
               ),
@@ -193,44 +253,60 @@ class DesktopNavigationBar extends StatelessWidget {
     decoration: const BoxDecoration(
     border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5))),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        const Text(
-          'Marketplace',
+        Text('GameGeek',
           style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+            fontFamily: 'Nico Moji',
+            fontWeight: FontWeight.w400,
+            fontSize: 30,
+            color: const Color(0xff0D2612),
           ),
         ),
-        const SizedBox(width: 40),
-        TextButton(
-          onPressed: () {},
-          child: const Text('Categories'),
-        ),
-        const SizedBox(width: 20),
-        TextButton(
-          onPressed: () {},
-          child: const Text('Brands'),
-        ),
-        const SizedBox(width: 20),
-        TextButton(
-          onPressed: () {},
-          child: const Text('What\'s New'),
-        ),
-        const SizedBox(width: 20),
-        TextButton(
-          onPressed: () {},
-          child: const Text('Sales'),
-        ),
-        const SizedBox(width: 20),
-        TextButton(
-          onPressed: () {},
-          child: const Text('Help'),
-        ),
-        const SizedBox(width: 20),
-        TextButton(
-          onPressed: () {},
-          child: const Text('About'),
+        Row(
+          children: [
+            const Text(
+              'Categories',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 40),
+            TextButton(
+              onPressed: () {},
+              child: const Text('Brands'),
+            ),
+            const SizedBox(width: 20),
+            TextButton(
+              onPressed: () {},
+              child: const Text('What\'s New'),
+            ),
+            const SizedBox(width: 20),
+            TextButton(
+              onPressed: () {},
+              child: const Text('Sales'),
+            ),
+            const SizedBox(width: 20),
+            TextButton(
+              onPressed: () {},
+              child: const Text('Help'),
+            ),
+            const SizedBox(width: 20),
+            TextButton(
+              onPressed: () {},
+              child: const Text('About'),
+            ),
+            const SizedBox(width: 40),
+            Icon(Icons.search),
+            const SizedBox(width: 20),
+            Icon(Icons.person_outline),
+            const SizedBox(width: 20),
+            Icon(Icons.shopping_cart_outlined),
+
+
+
+          ],
         ),
       ],
     ),

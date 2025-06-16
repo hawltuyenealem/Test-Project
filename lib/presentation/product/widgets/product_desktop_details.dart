@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:test_project/presentation/product/widgets/product_image_carousel.dart';
+import 'package:test_project/presentation/product/widgets/quality_selector.dart';
 import 'package:test_project/presentation/product/widgets/rating.dart';
 import '../../../service_locator.dart';
 import '../blocs/cart/cart_bloc.dart';
@@ -57,14 +59,7 @@ class ProductDetailsDesktop extends StatelessWidget {
                         constraints: const BoxConstraints(maxHeight: 500),
                         child: Stack(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                product.imageUrl,
-                                fit: BoxFit.contain,
-                                height: 400,
-                              ),
-                            ),
+                            ProductImageCarousel(),
                             Positioned(
                               top: 8,
                               right: 8,
@@ -193,19 +188,8 @@ class ProductDetailsDesktop extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          const Text(
-                            'Only 16 items left!',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          const Text(
-                            'Don\'t miss it!',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
+                          QuantitySelector(
+
                           ),
                           const SizedBox(height: 24),
                           Row(
